@@ -1,28 +1,41 @@
 class Solution {
-    public int calPoints(String[] operations) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < operations.length; i++) {
-            String op = operations[i];
-            if (op.equals("+")) {
-                int size = list.size();
-                int sum = list.get(size - 1) + list.get(size - 2);
-                list.add(sum);
-            } 
-            else if (op.equals("D")) {
-                list.add(2 * list.get(list.size() - 1));
-            } 
-            else if (op.equals("C")) {
-                list.remove(list.size() - 1);
-            } 
-            else {
-                list.add(Integer.parseInt(op));
+    public int calPoints(String[] op) {
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < op.length; i++) {
+
+    
+            if (op[i].matches("-?\\d+")) {
+                stack.push(Integer.parseInt(op[i]));
+            }
+
+    
+            else if (op[i].equals("C")) {
+                stack.pop();
+            }
+
+        
+            else if (op[i].equals("D")) {
+                int j = stack.peek();
+                stack.push(2 * j);
+            }
+
+            else if (op[i].equals("+")) {
+                int a = stack.pop();
+                int b = stack.peek();
+
+                stack.push(a);
+                stack.push(a + b);
             }
         }
-        int total = 0;
-        for (int num : list) {
-            total += num;
+
+        int sum = 0;
+
+        while (!stack.isEmpty()) {
+            sum += stack.pop();
         }
 
-        return total;
+        return sum;
     }
 }
