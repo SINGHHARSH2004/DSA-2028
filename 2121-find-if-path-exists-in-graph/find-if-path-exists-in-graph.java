@@ -1,5 +1,6 @@
 class Solution {
     public boolean validPath(int n, int[][] edges, int source, int destination) {
+        if(source==destination) return true;
         List<List<Integer>>adj=new ArrayList<>();
         for(int i=0;i<n;i++){
             List<Integer> list=new ArrayList<>();
@@ -14,14 +15,14 @@ class Solution {
 
         boolean[]visited=new boolean[n];
         visited[source]=true;
-        bfs(visited,source,adj);
+        bfs(visited,source,adj,destination);
         if(visited[destination]==false){
             return false;
         }
         return true;
     }
 
-    private void bfs(boolean[]visited,int source,List<List<Integer>>adj){
+    private void bfs(boolean[]visited,int source,List<List<Integer>>adj,int destination){
         Queue<Integer>queue=new LinkedList<>();
         queue.add(source);
         while(!queue.isEmpty()){
@@ -30,6 +31,7 @@ class Solution {
             if(!visited[ele]){
                 visited[ele]=true;
                 queue.add(ele);
+                if(ele==destination)return;
             }
         }
         }
