@@ -1,39 +1,41 @@
 class Solution {
     public boolean validPath(int n, int[][] edges, int source, int destination) {
-        if(source==destination) return true;
         List<List<Integer>>adj=new ArrayList<>();
         for(int i=0;i<n;i++){
-            List<Integer> list=new ArrayList<>();
-            adj.add(list);
+            adj.add(new ArrayList<>());
         }
+        for(int[] edge: edges){
+            int u=edge[0];
+            int v=edge[1];
+            adj.get(u).add(v);
+            adj.get(v).add(u);
 
-        for(int i=0;i<edges.length;i++){
-            int a=edges[i][0],b=edges[i][1];
-            adj.get(a).add(b);
-            adj.get(b).add(a);
         }
+        boolean[]vis=new boolean[n];
+       
+            bfs( adj,source,destination,vis);
 
-        boolean[]visited=new boolean[n];
-        visited[source]=true;
-        bfs(visited,source,adj,destination);
-        if(visited[destination]==false){
-            return false;
+        if(vis[destination]==true){
+            return true;
         }
-        return true;
+        return false;
     }
-
-    private void bfs(boolean[]visited,int source,List<List<Integer>>adj,int destination){
-        Queue<Integer>queue=new LinkedList<>();
-        queue.add(source);
-        while(!queue.isEmpty()){
-            int front=queue.poll();
-            for(int ele:adj.get(front)){
-            if(!visited[ele]){
-                visited[ele]=true;
-                queue.add(ele);
-                if(ele==destination)return;
+  public void  bfs( List<List<Integer>>adj,int source,int destination,boolean[] vis){
+                Queue<Integer>queue=new LinkedList<>();
+                vis[source]=true;
+                queue.add(source);
+                int n=adj.size();
+                while(!queue.isEmpty()){
+                    int front=queue.poll();
+                    for(int ele:adj.get(front)){
+                        if(!vis[ele]){
+                            vis[ele]=true;
+                            queue.offer(ele);
+                                if(ele==destination){
+                                    return ;
+                                }
+                        }
+                    }
+                }
             }
-        }
-        }
-    }
 }
