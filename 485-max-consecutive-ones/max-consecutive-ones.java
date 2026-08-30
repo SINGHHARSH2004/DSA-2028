@@ -10,13 +10,15 @@ class Solution {
             count++;
             end++;
         }
+       
         else{
-            max=Math.max(max,count);
+            
             start=end+1;
                 end++;
                 count=0;
         }
+         max=Math.max(max,count);
        }
-       return Math.max(max,count);
+       return max;
     }
 }
