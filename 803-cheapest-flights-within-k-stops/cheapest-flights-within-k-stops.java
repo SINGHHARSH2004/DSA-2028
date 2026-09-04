@@ -46,7 +46,7 @@ class Solution {
         Arrays.fill(ans, Integer.MAX_VALUE);
         ans[src] = 0;
 
-        PriorityQueue<Triplet> pq = new PriorityQueue<>();
+        Queue<Triplet> pq = new LinkedList<>();
 
         pq.add(new Triplet(src, 0, 0));
 
