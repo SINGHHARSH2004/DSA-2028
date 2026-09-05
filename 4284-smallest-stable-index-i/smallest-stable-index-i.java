@@ -1,14 +1,22 @@
 class Solution {
     public int firstStableIndex(int[] nums, int k) {
-        
-        for (int i = 0; i < nums.length; i++) {
-    int min = Arrays.stream(nums, i,nums.length ).min().getAsInt();
-    int max = Arrays.stream(nums, 0, i+1).max().getAsInt();
-    if( Math.abs(max-min)<=k){
-        return i;
-    }
+        int n = nums.length;
+        int[] right = new int[n];
+        right[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            right[i] = Math.min(nums[i], right[i + 1]);
+        }
 
+        int left = 0;
+
+        for (int i = 0; i < n; i++) {
+            left = Math.max(left, nums[i]);
+            int score = left - right[i];
+            if (score <= k) {
+                return i;
+            }
+        }
+
+        return -1;
     }
-    return -1;
-}
 }
